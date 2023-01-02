@@ -32,11 +32,11 @@ public class PrimitiveOptions {
     }
 
     public PrimitiveOptions(Primitive type, long lowerBound, long upperBound) {
-        this(type, Long.toString(lowerBound), Long.toString(upperBound));
+        this(type, validateLowerBoundToString(lowerBound, upperBound), Long.toString(upperBound));
     }
 
     public PrimitiveOptions(Primitive type, double lowerBound, double upperBound) {
-        this(type, df.format(lowerBound), df.format(upperBound));
+        this(type, validateLowerBoundToString(lowerBound, upperBound), df.format(upperBound));
     }
 
     private PrimitiveOptions(Primitive type, String lowerBound, String upperBound) {
@@ -45,7 +45,8 @@ public class PrimitiveOptions {
         }
         switch (type) {
             case BOOLEAN -> {
-                break;
+                lowerBound = "0";
+                upperBound = "1";
             }
             case FLOATING_POINT -> {
                 if (!fpPattern.matcher(upperBound).matches()) {
@@ -65,9 +66,6 @@ public class PrimitiveOptions {
                     throw new IllegalArgumentException("Lower bound is not an Integer value.");
                 }
             }
-            default -> {
-                break;
-            }
         }
         this.type = type;
         this.lowerBound = lowerBound;
@@ -80,6 +78,20 @@ public class PrimitiveOptions {
             case FLOATING_POINT -> df.format(Double.MAX_VALUE);
             case BOOLEAN -> "1";
         };
+    }
+
+    private static String validateLowerBoundToString(long lowerBound, long upperBound) {
+        if (lowerBound > upperBound) {
+            throw new IllegalArgumentException("Lower bound must be less than upper bound.");
+        }
+        return Long.toString(lowerBound);
+    }
+
+    private static String validateLowerBoundToString(double lowerBound, double upperBound) {
+        if (lowerBound > upperBound) {
+            throw new IllegalArgumentException("Lower bound must be less than upper bound.");
+        }
+        return df.format(lowerBound);
     }
 
     public Primitive getType() {
