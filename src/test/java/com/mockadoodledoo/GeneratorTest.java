@@ -10,18 +10,18 @@ public class GeneratorTest {
 
     @Test
     public void negativeElementsTest() {
-        assertThrows(IllegalArgumentException.class, () -> Generator.of(-1));
+        assertThrows(IllegalArgumentException.class, () -> Generator.with(-1));
     }
 
     @Test
     public void positiveElementsTest() {
-        assertDoesNotThrow(() -> Generator.of(10));
+        assertDoesNotThrow(() -> Generator.with(10));
     }
 
     @Test
     public void columnMismatchTest() {
         assertThrows(IllegalArgumentException.class,
-                () -> Generator.of(5, "test column")
+                () -> Generator.with(5, "test column")
                         .primitive(new PrimitiveOptions(Primitive.BOOLEAN))
                         .primitive(new PrimitiveOptions(Primitive.BOOLEAN)));
     }
@@ -29,24 +29,25 @@ public class GeneratorTest {
     @Test
     public void booleanGeneratorTest() {
         assertDoesNotThrow(
-                () -> Generator.of(10).primitive(new PrimitiveOptions(Primitive.BOOLEAN)));
+                () -> Generator.with(10).primitive(new PrimitiveOptions(Primitive.BOOLEAN)));
     }
 
     @Test
     public void booleanGeneratorNoColumns() {
-        assertDoesNotThrow(() -> Generator.of(10).primitive(new PrimitiveOptions(Primitive.BOOLEAN))
-                .primitive(new PrimitiveOptions(Primitive.BOOLEAN)));
+        assertDoesNotThrow(
+                () -> Generator.with(10).primitive(new PrimitiveOptions(Primitive.BOOLEAN))
+                        .primitive(new PrimitiveOptions(Primitive.BOOLEAN)));
     }
 
     @Test
     public void integerGeneratorTest() {
         assertDoesNotThrow(
-                () -> Generator.of(10).primitive(new PrimitiveOptions(Primitive.INTEGER)));
+                () -> Generator.with(10).primitive(new PrimitiveOptions(Primitive.INTEGER)));
     }
 
     @Test
     public void floatingPointGeneratorTest() {
         assertDoesNotThrow(
-                () -> Generator.of(10).primitive(new PrimitiveOptions(Primitive.FLOATING_POINT)));
+                () -> Generator.with(10).primitive(new PrimitiveOptions(Primitive.FLOATING_POINT)));
     }
 }

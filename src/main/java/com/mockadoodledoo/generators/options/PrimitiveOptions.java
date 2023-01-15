@@ -3,7 +3,6 @@ package com.mockadoodledoo.generators.options;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
-import java.util.regex.Pattern;
 import com.mockadoodledoo.generators.types.Primitive;
 
 public class PrimitiveOptions {
@@ -13,8 +12,6 @@ public class PrimitiveOptions {
         df.setMaximumFractionDigits(340); // max allowed digits + no precision loss
     }
 
-    private static Pattern fpPattern = Pattern.compile("[+-]?([0-9]*[.])?[0-9]+");
-    private static Pattern intPattern = Pattern.compile("^[-+]?\\d+$");
     private Primitive type;
     private String lowerBound;
     private String upperBound;
@@ -48,23 +45,7 @@ public class PrimitiveOptions {
                 lowerBound = "0";
                 upperBound = "1";
             }
-            case FLOATING_POINT -> {
-                if (!fpPattern.matcher(upperBound).matches()) {
-                    throw new IllegalArgumentException(
-                            "Upper bound is not a floating point value.");
-                }
-                if (!fpPattern.matcher(lowerBound).matches()) {
-                    throw new IllegalArgumentException(
-                            "Lower bound is not a floating point value.");
-                }
-            }
-            case INTEGER -> {
-                if (!intPattern.matcher(upperBound).matches()) {
-                    throw new IllegalArgumentException("Upper bound is not an Integer value.");
-                }
-                if (!intPattern.matcher(lowerBound).matches()) {
-                    throw new IllegalArgumentException("Lower bound is not an Integer value.");
-                }
+            case FLOATING_POINT, INTEGER -> {
             }
         }
         this.type = type;

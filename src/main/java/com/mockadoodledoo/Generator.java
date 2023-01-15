@@ -9,6 +9,7 @@ import com.mockadoodledoo.generators.options.PrimitiveOptions;
 import com.mockadoodledoo.generators.primitive.BooleanGenerator;
 import com.mockadoodledoo.generators.primitive.FloatingPointGenerator;
 import com.mockadoodledoo.generators.primitive.IntegerGenerator;
+import com.mockadoodledoo.generators.types.Primitive;
 
 public class Generator {
     private static final int TO_STRING_PADDING = 25;
@@ -17,13 +18,13 @@ public class Generator {
     private List<List<? extends Object>> items;
 
     /**
-     * Creates a new data Generator with the specified number of elements.
+     * Creates a new data {@link Generator} with the specified number of elements.
      * 
      * @param numberOfElements the number of elements to generate for each data set. Must be greater
      *        than 0.
      * @return The configured generator.
      */
-    public static Generator of(int numberOfElements, String... columns) {
+    public static Generator with(int numberOfElements, String... columns) {
         if (numberOfElements < 0) {
             throw new IllegalArgumentException("numberOfElements must be positive");
         }
@@ -41,9 +42,10 @@ public class Generator {
     }
 
     /**
-     * Runs a primitive generator for BOOLEAN, INTEGER, and FLOATING_POINT point types.
-     * BooleanGenerator returns a list of boolean values. IntegerGenerator returns a list of long
-     * values. FloatingPointGenerator returns a list of double values.
+     * Runs a primitive generator for {@link Primitive#BOOLEAN}, {@link Primitive#INTEGER}, and
+     * {@link Primitive#FLOATING_POINT} point types. {@link BooleanGenerator} returns a list of
+     * boolean values. {@link IntegerGenerator} returns a list of long values.
+     * {@link FloatingPointGenerator} returns a list of double values.
      * 
      * @param options
      * @return
@@ -60,6 +62,12 @@ public class Generator {
         return this;
     }
 
+    /**
+     * Builds the data into the request format defined by {@link BuildOptions}
+     * 
+     * @param buildOption format options for the builder
+     * @return the data in the requested format
+     */
     public String build(BuildOptions buildOption) {
         return switch (buildOption) {
             case CSV -> new CSVBuilder().build(items, columns);
