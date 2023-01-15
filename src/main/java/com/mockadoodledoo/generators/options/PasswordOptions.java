@@ -15,7 +15,8 @@ public class PasswordOptions {
     private static final int MAX_LENGTH = 128;
 
     /**
-     * Creates a new {@link PasswordOptions} instance defaulting to a length of 16 characters.
+     * Creates a new {@link PasswordOptions} instance defaulting of
+     * {@link PasswordOptions#DEFAULT_LENGTH} and default character case {@link Case#MIXED}.
      * 
      * @param type
      */
@@ -35,8 +36,8 @@ public class PasswordOptions {
     }
 
     /**
-     * Creates a new {@link PasswordOptions} instance with a default length and default character
-     * case {@link Case#MIXED}.
+     * Creates a new {@link PasswordOptions} instance with a default length
+     * {@link PasswordOptions#DEFAULT_LENGTH} and default character case {@link Case#MIXED}.
      * 
      * @param type
      * @param length

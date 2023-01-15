@@ -12,6 +12,14 @@ public class PasswordGenerator {
     private static final String NUM_STRING = "0123456789";
     private static final String SYMBOL_STRING = "!£$%^&*()-+=_[]{};:@,.<>/?#~";
 
+    /**
+     * Generate a list of passwords with the defined options.
+     * 
+     * @apiNote These passwords are not handled securely and are not recommended for genuine use.
+     * @param numberOfElements
+     * @param options
+     * @return
+     */
     public static List<String> of(int numberOfElements, PasswordOptions options) {
         List<String> passwords = new ArrayList<>(numberOfElements);
         var alphabet = getAlphabet(options);
@@ -27,15 +35,14 @@ public class PasswordGenerator {
     }
 
     private static char[] getAlphabet(PasswordOptions options) {
-        String alphabet = switch (options.getType()) {
+        return (switch (options.getType()) {
             case ALPHA -> getAlphaString(options.getPasswordCase());
             case ALPHA_NUMERIC -> getAlphaString(options.getPasswordCase()) + NUM_STRING;
             case ALPHA_NUMERIC_SYMBOLIC -> getAlphaString(options.getPasswordCase()) + NUM_STRING
                     + SYMBOL_STRING;
             case NUMERIC -> NUM_STRING;
             case SYMBOLIC -> SYMBOL_STRING;
-        };
-        return alphabet.toCharArray();
+        }).toCharArray();
     }
 
     private static String getAlphaString(Case characterCase) {

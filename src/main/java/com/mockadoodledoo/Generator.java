@@ -64,6 +64,12 @@ public class Generator {
         return this;
     }
 
+    /**
+     * Runs a password generator with the configured {@link PasswordOptions}
+     * 
+     * @param options
+     * @return
+     */
     public Generator password(PasswordOptions options) {
         add(PasswordGenerator.of(elements, options));
         return this;
