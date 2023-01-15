@@ -5,7 +5,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.mockadoodledoo.builders.CSVBuilder;
+import com.mockadoodledoo.generators.options.PasswordOptions;
 import com.mockadoodledoo.generators.options.PrimitiveOptions;
+import com.mockadoodledoo.generators.password.PasswordGenerator;
 import com.mockadoodledoo.generators.primitive.BooleanGenerator;
 import com.mockadoodledoo.generators.primitive.FloatingPointGenerator;
 import com.mockadoodledoo.generators.primitive.IntegerGenerator;
@@ -34,6 +36,9 @@ public class Generator {
     private Generator(int numberOfElements, String... columns) {
         this.elements = numberOfElements;
         this.columns = columns;
+        if (this.columns.length > 0 && elements >= this.columns.length) {
+            throw new IllegalArgumentException("Cannot generate more data than available columns.");
+        }
         this.items = new ArrayList<List<? extends Object>>();
     }
 
@@ -51,14 +56,16 @@ public class Generator {
      * @return
      */
     public Generator primitive(PrimitiveOptions options) {
-        if (this.columns.length > 0 && items.size() >= this.columns.length) {
-            throw new IllegalArgumentException("Cannot generate more data than available columns.");
-        }
         add(switch (options.getType()) {
             case BOOLEAN -> BooleanGenerator.of(elements, options);
             case INTEGER -> IntegerGenerator.of(elements, options);
             case FLOATING_POINT -> FloatingPointGenerator.of(elements, options);
         });
+        return this;
+    }
+
+    public Generator password(PasswordOptions options) {
+        add(PasswordGenerator.of(elements, options));
         return this;
     }
 
